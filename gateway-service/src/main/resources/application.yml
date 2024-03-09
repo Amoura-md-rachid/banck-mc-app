@@ -1,0 +1,20 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: r1
+          uri: http://localhost:8082/
+          predicates:
+            - Path=/customers/**
+        - id: r2
+          uri: http://localhost:8083/
+          predicates:
+            - Path=/api/v1/accounts/**
+          # Add filters here if needed
+          #  - name: SomeFilter  # Example filter name
+          #    args:  # Optional arguments for the filter
+
+  application:
+    name: gateway-service
+server:
+  port: 8888
