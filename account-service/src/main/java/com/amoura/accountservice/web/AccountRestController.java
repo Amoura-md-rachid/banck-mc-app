@@ -1,7 +1,9 @@
 package com.amoura.accountservice.web;
 
 
+import com.amoura.accountservice.clients.CustomerRestClient;
 import com.amoura.accountservice.entities.BanckAccount;
+import com.amoura.accountservice.model.Customer;
 import com.amoura.accountservice.repository.BanckAccountRepository;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,10 +17,12 @@ import java.util.List;
 public class AccountRestController {
 
     private final BanckAccountRepository banckAccountRepository;
+    private  CustomerRestClient customerRestClient;
 
 
-    public AccountRestController(BanckAccountRepository banckAccountRepository) {
+    public AccountRestController(BanckAccountRepository banckAccountRepository, CustomerRestClient customerRestClient) {
         this.banckAccountRepository = banckAccountRepository;
+        this.customerRestClient = customerRestClient;
     }
 
     @GetMapping("/accounts")
@@ -28,6 +32,9 @@ public class AccountRestController {
 
     @GetMapping("/accounts/{id}")
     public BanckAccount banckAccountBayId(@PathVariable String id){
-        return banckAccountRepository.findById(id).get();
+        BanckAccount  banckAccount= banckAccountRepository.findById(id).get();
+        Customer customer = customerRestClient.findCustomerByID(banckAccount.getCustomerId());
+        banckAccount.setCustomer(customer);
+        return banckAccount;
     }
 }

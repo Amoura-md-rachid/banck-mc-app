@@ -1,11 +1,9 @@
 package com.amoura.accountservice.model;
 
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
-@Getter @Setter @ToString
+@Getter @Setter @ToString @AllArgsConstructor @NoArgsConstructor
 public class Customer {
     private Long id;
     private String firstName;
